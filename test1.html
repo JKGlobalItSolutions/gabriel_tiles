@@ -27,7 +27,51 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
+    const firebaseConfig = {
+    apiKey: "AIzaSyAAvXFQ36ggybZpCkkF8ImlliL5o2Nmn8s",
+    authDomain: "gabrial-marriage-hall.firebaseapp.com",
+    projectId: "gabrial-marriage-hall",
+    storageBucket: "gabrial-marriage-hall.appspot.com",
+    messagingSenderId: "9359649680",
+    appId: "1:9359649680:web:a7816cee79db4283472115",
+    measurementId: "G-CZPNK97B3J"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const firestore = getFirestore(app);
+
+    document.addEventListener('DOMContentLoaded', async () => {
+    const galleryContainer = document.getElementById('galleryContainer');
+    
+    try {
+        const querySnapshot = await getDocs(collection(firestore, 'TilesImages'));
+        querySnapshot.forEach((doc) => {
+        const hotel = doc.data();
+        const card = document.createElement('div');
+        card.classList.add('col-md-6');
+        card.innerHTML = `
+                <div class="single-gallery mb-30">
+                    <div class="gallery-img" style=" overflow: hidden;">
+                        <img src="${hotel.imageUrl}" alt="Gallery Image 1" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="thumb-content-box">
+                        <div class="thumb-content">
+                            <h3>${hotel.hotelName}</h3>
+                        </div>
+                    </div>
+                </div>
+        `;
+        galleryContainer.appendChild(card);
+        });
+    } catch (error) {
+        console.error('Error fetching images:', error);
+    }
+    });
+</script>
 </head>
 
 <body class="projects-page">
@@ -73,22 +117,7 @@
 
       <div class="container">
 
-        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-
-          <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item ">
-              <div class="portfolio-content h-100">
-                <a href="assets/img/projects/remodeling-1.jpg"  data-gallery="portfolio-gallery-book" class="glightbox preview-link">
-                  <img src="assets/img/projects/remodeling-1.jpg" class="img-fluid" alt="">
-                  <div class="portfolio-info">
-                    <p>Last image</p>
-                  </div>
-                </a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-          </div><!-- End Portfolio Container -->
+        <div class="row" id="galleryContainer">
 
         </div>
 
