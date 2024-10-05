@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Gabriel Tiles</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- Ensure all images are the same size in the gallery section -->
+  <style>
+    .gallery-img {
+      width: 100%;
+      height: 300px; /* Set a fixed height for the images */
+      overflow: hidden;
+    }
+
+    .gallery-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Ensures images fill the container without distortion */
+    }
+  </style>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAAvXFQ36ggybZpCkkF8ImlliL5o2Nmn8s",
+      authDomain: "gabrial-marriage-hall.firebaseapp.com",
+      projectId: "gabrial-marriage-hall",
+      storageBucket: "gabrial-marriage-hall.appspot.com",
+      messagingSenderId: "9359649680",
+      appId: "1:9359649680:web:a7816cee79db4283472115",
+      measurementId: "G-CZPNK97B3J"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const firestore = getFirestore(app);
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const galleryContainer = document.getElementById('galleryContainer');
+
+      try {
+        const querySnapshot = await getDocs(collection(firestore, 'TilesImages'));
+        querySnapshot.forEach((doc) => {
+          const hotel = doc.data();
+          const card = document.createElement('div');
+          card.classList.add('col-md-6');
+          card.innerHTML = `
+                <div class="single-gallery mb-30">
+                    <div class="gallery-img border" style="overflow: hidden;">
+                        <img src="${hotel.imageUrl}" alt="Gallery Image" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="thumb-content-box">
+                        <div class="thumb-content my-2">
+                            <h5><b class="text-dark ">${hotel.hotelName}</b></h5>
+                        </div>
+                    </div>
+                </div>
+          `;
+          galleryContainer.appendChild(card);
+        });
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      }
+    });
+  </script>
+</head>
+
+<body class="projects-page">
+
+  <header id="header" class="header d-flex align-items-center">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img class="img-fluid" src="./assets/img/logo/logo.png" alt="img">
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html" class="text-dark">Home</a></li>
+          <li><a href="about.html" class="text-dark">About</a></li>
+          <li><a href="Tiles.html" class="active text-dark">Tiles</a></li>
+          <li><a href="contact.html" class="text-dark">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list text-dark"></i>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Page Title -->
+    <div class="page-title dark-background" style="background-image: url(assets/img/page-title-bg.png);">
+      <div class="container position-relative">
+        <h1>Tiles</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li class="current">Tiles</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects section">
+      <div class="container">
+        <div class="row" id="galleryContainer"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer" class="footer dark-background">
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-3 col-md-6 footer-about">
+          <a href="index.html" class="logo d-flex align-items-center">
+            <span class="sitename"><img class="bg-light p-1 rounded" src="./assets/img/logo/logo.png" alt=""></span>
+          </a>
+        </div>
+
+        <div class="col-lg-3 col-md-3 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="#">Ceramic Tiles</a></li>
+            <li><a href="#">Porcelain Tiles</a></li>
+            <li><a href="#">Mosaic Tiles</a></li>
+            <li><a href="#">Vinyl Tiles</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-3 footer-links">
+          <h4>Address:</h4>
+          <ul>
+            <li><a href="#">Tiruvannamalai, Tamil Nadu</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-3 footer-links">
+          <h4>Contact:</h4>
+          <ul>
+            <li><a href="#"><strong>Phone:</strong> <span>+91 8438438413</span></a></li>
+            <li><a href="#"><strong>Email:</strong> <span>Gabrieltils@gmail.com</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename text-warning">Gabriel Tiles</strong> <span>All Rights Reserved</span></p>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
